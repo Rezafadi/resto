@@ -1,0 +1,192 @@
+<div class="woocommerce">
+  <form id="form-bayar" class="checkout woocommerce-checkout">
+    <div class="col2-set" id="customer_details">
+      <div class="col-1">
+        <div class="woocommerce-billing-fields">
+          <h3>Detail Pemesan</h3>
+          <p class="form-row form-row form-row-first" id="nama">
+            <label for="nama" class="">Nama Anda</label>
+            <input
+              type="text"
+              class="input-text"
+              name="resto_order[nama]"
+              placeholder="Input Nama Anda"
+              autocomplete="off"
+              required
+              autofocus
+            />
+          </p>
+          <p class="form-row form-row form-row-last" id="meja">
+            <label for="meja" class="">No. Meja</label>
+            <select
+              class="input-text"
+              id="meja_id"
+              name="resto_order[meja_id]"
+              required
+            >
+              <option value="">- Pilih No. Meja -</option>
+              {resto_meja}
+              <option value="{meja_id}">{meja_id}</option>
+              {/resto_meja}
+            </select>
+          </p>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="woocommerce-shipping-fields">
+          <h3>Informasi Tambahan</h3>
+          <p class="form-row form-row notes" id="order_comments_field">
+            <label for="order_comments" class="">Catatan</label>
+            <textarea
+              name="resto_order[catatan]"
+              class="input-text"
+              id="catatan"
+              placeholder="Tuliskan Catatan untuk Order Anda"
+              rows="4"
+              cols="5"
+            ></textarea>
+          </p>
+        </div>
+      </div>
+    </div>
+    <h3 id="order_review_heading">Order Anda</h3>
+    <div id="order_review" class="woocommerce-checkout-review-order">
+      <table class="shop_table woocommerce-checkout-review-order-table">
+        <thead>
+          <tr>
+            <th class="product-name">Menu</th>
+            <th class="product-total">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cart_content}
+          <tr class="cart_item">
+            <td class="product-name">
+              {menu_nama}&nbsp;<strong class="product-quantity"
+                >&times; {qty}</strong
+              >
+            </td>
+            <td class="product-total">
+              <span class="woocommerce-Price-amount amount">
+                <span class="woocommerce-Price-currencySymbol">Rp. </span
+                >{subtotal}</span
+              >
+            </td>
+          </tr>
+          {/cart_content}
+        </tbody>
+        <tfoot>
+          <input
+            type="hidden"
+            name="resto_order[total_waktu]"
+            value="{total_waktu}"
+          />
+          <input
+            type="hidden"
+            name="resto_order[total_qty]"
+            value="{total_qty}"
+          />
+          <input type="hidden" name="resto_order[total]" value="{cart_total}" />
+          <tr class="cart-subtotal">
+            <th>Total Qty</th>
+            <td>
+              <span class="woocommerce-Price-amount amount">
+                <span class="woocommerce-Price-currencySymbol"></span
+                >{total_qty}</span
+              >
+            </td>
+          </tr>
+          <tr class="cart-subtotal">
+            <th>Total Waktu</th>
+            <td>
+              <span class="woocommerce-Price-amount amount">
+                <span class="woocommerce-Price-currencySymbol"></span
+                >{total_waktu} Menit</span
+              >
+            </td>
+          </tr>
+          <tr class="order-total">
+            <th>Total Bayar</th>
+            <td>
+              <strong
+                ><span class="woocommerce-Price-amount amount"
+                  ><span class="woocommerce-Price-currencySymbol">Rp. </span
+                  >{cart_total_format}</span
+                ></strong
+              >
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <div id="payment" class="woocommerce-checkout-payment">
+        <div class="form-row place-order">
+          <button
+            type="submit"
+            id="btn_submit"
+            class=""
+            style="text-align: center; width: 100%"
+          >
+            Konfirmasi Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    // Ambil no_meja dari URL
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    const noMeja = getQueryParam("no_meja");
+    const selectElement = $("#meja_id");
+
+    if (noMeja) {
+      // Jika ada no_meja di URL, set dan disabled dropdown
+      selectElement.val(noMeja);
+      selectElement.prop("disabled", true); // Jangan kirim select yang disabled
+      // Tambahkan input hidden untuk meja_id
+      if (!$("#hidden_meja_id").length) {
+        $("<input>")
+          .attr({
+            type: "hidden",
+            id: "hidden_meja_id",
+            name: "resto_order[meja_id]",
+            value: noMeja,
+          })
+          .appendTo("#form-bayar");
+      }
+    } else {
+      // Jika tidak ada, aktifkan dropdown dan biarkan user memilih
+      selectElement.prop("disabled", false);
+    }
+
+    // Event listener ketika meja_id berubah
+    $("#meja_id").on("change", function (event) {
+      event.preventDefault();
+      var meja_id = $(this).val();
+      $(".row_total").attr("data-meja_id", meja_id); // Menyimpan meja_id sebagai data attribute
+    });
+
+    // Form submit dengan AJAX
+    $("#form-bayar").on("submit", function (event) {
+      event.preventDefault();
+      dataString = $("#form-bayar").serialize();
+      $.ajax({
+        url: "{base}/checkout/konfirmasi",
+        type: "POST",
+        data: dataString,
+      })
+        .done(function (res) {
+          location.href = "{base}/checkout/selesai/" + res.order_id;
+        })
+        .fail(function (error) {
+          console.log(error.responseText);
+        });
+    });
+  });
+</script>

@@ -1,0 +1,20 @@
+@l!x0
+Toko      : Ruang Kopi Teka             
+Alamat    : Dekat TK Daarul Fikri, Jl. A
+No. Telp  : 0822-1436-6634              
+
+No. Order : 14
+Tanggal   : 01-08-2024
+Kasir     : 
+========================================
+Menu                 Harga Qty  Subtotal
+========================================
+STRAWBERRY CAKE     30,000   2    60,000
+
+                   Sub Total :    60,000
+                      Diskon :         0
+                       TOTAL :    60,000
+----------------------------------------
+Terima Kasih atas kunjungan Anda
+
+
