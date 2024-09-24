@@ -16,7 +16,7 @@
               autofocus
             />
           </p>
-          <p class="form-row form-row form-row-last" id="meja">
+          <p class="form-row form-row-last" id="meja">
             <label for="meja" class="">No. Meja</label>
             <select
               class="input-text"
@@ -142,14 +142,14 @@
       return urlParams.get(param);
     }
 
+    // Fetch no_meja from URL or session
     const noMeja = getQueryParam("no_meja");
     const selectElement = $("#meja_id");
 
     if (noMeja) {
       // Jika ada no_meja di URL, set dan disabled dropdown
       selectElement.val(noMeja);
-      selectElement.prop("disabled", true); // Jangan kirim select yang disabled
-      // Tambahkan input hidden untuk meja_id
+      selectElement.prop("disabled", true);
       if (!$("#hidden_meja_id").length) {
         $("<input>")
           .attr({
@@ -169,7 +169,7 @@
     $("#meja_id").on("change", function (event) {
       event.preventDefault();
       var meja_id = $(this).val();
-      $(".row_total").attr("data-meja_id", meja_id); // Menyimpan meja_id sebagai data attribute
+      $(".row_total").attr("data-meja_id", meja_id);
     });
 
     // Form submit dengan AJAX

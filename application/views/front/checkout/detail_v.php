@@ -2,7 +2,7 @@
     <div class="col-full">
         <div class="pizzaro-breadcrumb">
             <nav class="woocommerce-breadcrumb">
-                <a href="<?=base_url();?>">Beranda</a>
+                <a href="<?= base_url(); ?>">Beranda</a>
                 <span class="delimiter"><i class="po po-arrow-right-slider"></i></span>
                 <a href="#">Konfirmasi</a>
                 <span class="delimiter"><i class="po po-arrow-right-slider"></i></span>Order Selesai
@@ -10,7 +10,7 @@
         </div>
         <div id="primary" class="content-area">
             <main id="main" class="site-main">
-                <?=$_proses;?>
+                <?= $_proses; ?>
 
                 <div id="post-9" class="post-9 page type-page status-publish hentry">
                     <header class="entry-header">
@@ -22,13 +22,13 @@
                             <p class="woocommerce-thankyou-order-received">Segera Lakukan Pembayaran Di Kasir Agar
                                 Pesanan Anda Dapat Kami Proses Dengan Cepat.</p>
                             <ul class="woocommerce-thankyou-order-details order_details">
-                                <li class="order">No. Order #:<strong><?=$Order->order_id;?></strong></li>
-                                <li class="date">Tanggal :<strong><?=tgl_indo($Order->order_tanggal);?></strong></li>
+                                <li class="order">No. Order #:<strong><?= $Order->order_id; ?></strong></li>
+                                <li class="date">Tanggal :<strong><?= tgl_indo($Order->order_tanggal); ?></strong></li>
                                 <li class="date">Qty dan Waktu
-                                    :<strong><?=$Order->order_qty.' / '.$Order->order_waktu.' Menit';?></strong></li>
+                                    :<strong><?= $Order->order_qty . ' / ' . $Order->order_waktu . ' Menit'; ?></strong></li>
                                 <li class="total">Total :<strong><span class="woocommerce-Price-amount amount"><span
                                                 class="woocommerce-Price-currencySymbol">Rp.
-                                            </span><?=number_format($Order->order_total,0,'',',');?></span></strong>
+                                            </span><?= number_format($Order->order_total, 0, '', ','); ?></span></strong>
                                 </li>
                             </ul>
                             <div class="clear"></div>
@@ -42,18 +42,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($listOrder as $r) { ?>
-                                    <tr class="order_item">
-                                        <td class="product-name">
-                                            <a
-                                                href="<?=site_url('menuorder/'.$r->menu_seo);?>"><?=ucwords(strtolower($r->menu_nama));?></a>
-                                            <strong class="product-quantity">× <?=$r->order_detail_qty;?></strong>
-                                        </td>
-                                        <td class="product-total"><span class="woocommerce-Price-amount amount"><span
-                                                    class="woocommerce-Price-currencySymbol">Rp.
-                                                </span><?=number_format($r->order_detail_subtotal,0,'',',');?></span>
-                                        </td>
-                                    </tr>
+                                    <?php foreach ($listOrder as $r) { ?>
+                                        <tr class="order_item">
+                                            <td class="product-name">
+                                                <a
+                                                    href="<?= site_url('menuorder/' . $r->menu_seo); ?>"><?= ucwords(strtolower($r->menu_nama)); ?></a>
+                                                <strong class="product-quantity">× <?= $r->order_detail_qty; ?></strong>
+                                            </td>
+                                            <td class="product-total"><span class="woocommerce-Price-amount amount"><span
+                                                        class="woocommerce-Price-currencySymbol">Rp.
+                                                    </span><?= number_format($r->order_detail_subtotal, 0, '', ','); ?></span>
+                                            </td>
+                                        </tr>
                                     <?php } ?>
                                 </tbody>
                                 <tfoot>
@@ -61,7 +61,7 @@
                                         <th scope="row">Total :</th>
                                         <td><span class="woocommerce-Price-amount amount"><span
                                                     class="woocommerce-Price-currencySymbol">Rp.
-                                                </span><?=number_format($Order->order_total,0,'',',');?></span></td>
+                                                </span><?= number_format($Order->order_total, 0, '', ','); ?></span></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -72,11 +72,11 @@
                                 <tbody>
                                     <tr>
                                         <th>Nama :</th>
-                                        <td><?=$Order->order_nama;?></td>
+                                        <td><?= $Order->order_nama; ?></td>
                                     </tr>
                                     <tr>
                                         <th>No. Meja :</th>
-                                        <td><?=$Order->meja_nama;?></td>
+                                        <td><?= $Order->meja_id; ?></td>
                                     </tr>
                                 </tbody>
                             </table>

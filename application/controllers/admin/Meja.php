@@ -26,14 +26,26 @@ class Meja extends MY_Controller
             $no++;
             $row     = array();
             $meja_id = $r->meja_id;
+
+            // Link tersebut dapat di ubah sesuai kebutuhan
+            $qr_link = site_url('home/handle_qr?no_meja=' . $meja_id);
+            $qr_code_url = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" . urlencode($qr_link);
+            // Add QR code image with download link
+            $qr_code = '<img src="' . $qr_code_url . '" alt="QR Code" style="width: 50px; height: 50px;">';
+            $download_link = '<a href="' . $qr_code_url . '" download="QR_meja_' . $meja_id . '.png">
+            <i class="fa fa-download"></i> Download
+          </a>';
+
             $row[]   = '<a title="Edit Data" href="javascript:void(0)" onclick="edit_data(' . "'" . $meja_id . "'" . ')">
                             <i class="icon-pencil"></i>
                         </a>
                         <a onclick="hapusData(' . $meja_id . ')" title="Delete Data">
                             <i class="icon-close"></i>
                         </a>';
-            $row[]  = $no;
+            $row[]  = $meja_id;
             $row[]  = $r->meja_nama;
+            $row[] = $qr_code;
+            $row[] = $download_link;
             $data[] = $row;
         }
 
@@ -46,6 +58,7 @@ class Meja extends MY_Controller
 
         echo json_encode($output);
     }
+
 
     public function savedata()
     {

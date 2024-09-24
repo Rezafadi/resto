@@ -31,6 +31,16 @@ class Checkout extends MY_Controller
                 $total_waktu += $waktu;
             }
 
+            // Retrieve no_meja from session
+            $no_meja = $this->session->userdata('no_meja');
+
+            // If the URL already has the no_meja query parameter, do not redirect
+            if ($no_meja && !isset($_GET['no_meja'])) {
+                // Create the base URL with no_meja as a query parameter
+                $url = base_url('checkout/review') . '?no_meja=' . urlencode($no_meja);
+                redirect($url); // Redirect to this URL
+            }
+
             $data['total_waktu']             = $total_waktu;
             $data['total_qty']               = $total_qty;
             $this->data['cart_count']        = count($cart_content);
@@ -40,7 +50,7 @@ class Checkout extends MY_Controller
             $this->data['cart_total']        = $this->cart->total();
             $this->data['cart_total_format'] = number_format($this->cart->total(), 0, '', '.');
             $this->data['resto_meja']        = $this->db->get('resto_meja')->result();
-            $this->data['cart_total']        = $this->cart->total();
+
             $data['review_content']          = $this->parser->parse('front/checkout/review_content.html', $this->data, true);
             $this->template_front->display('front/checkout/review', $data);
         } else {
@@ -120,6 +130,7 @@ class Checkout extends MY_Controller
 
             // Ambil nilai meja_id dari query parameter ?no_meja= jika ada
             $meja_id = isset($_GET['no_meja']) ? $_GET['no_meja'] : $param['resto_order']['meja_id'];
+            // $meja_id = $this->session->userdata('no_meja');
             $meja_id = stripHTMLtags($meja_id);
 
             // Buat data order dengan meja_id dari query parameter
